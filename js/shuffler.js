@@ -1,7 +1,29 @@
 $(document).ready(function(){
-	var log = $('#log');
+	//var log = $('#log');
 	var photoSections = ['#MP','#digitization'];
-	photoSections => log.html($(photoSectionsArray[0]).css('top') + 'event clicked')
+	//photoSections => log.html($(photoSectionsArray[0]).css('top') + 'event clicked')
+	var belowArray = photoSections.filter(function(element) {
+				return photoSections.indexOf(element) > 0});
+	var spread = 23; 
+	(() => { 
+		$(belowArray.join()).each(
+			function () {
+				$(this).animate(
+					{
+						top: (spread + "vh").toString()
+					},
+					{ duration: 200, queue: false }
+				);
+				spread += spread;
+			}
+		)
+	})()
+	//() => log.html('evenst clicked');
+	/*
+	var test = () => log.html('evenst clicked')
+	test();
+	*/
+	//test(log);
 	$('body').click(function(event){
 		var log = $('#log');
 		var vhUnit = $(window).height()/100;
