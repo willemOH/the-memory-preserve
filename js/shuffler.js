@@ -1,20 +1,21 @@
 $(document).ready(function(){
 	//var log = $('#log');
-	var photoSections = ['#MP','#digitization'];
+	var photoSections = ['#MP','#digitization','#restoration', '#AI'];
 	//photoSections => log.html($(photoSectionsArray[0]).css('top') + 'event clicked')
 	var belowArray = photoSections.filter(function(element) {
 				return photoSections.indexOf(element) > 0});
 	var spread = 23; 
-	(() => { 
+	(function() { 
 		$(belowArray.join()).each(
-			function () {
+			function (index) {
+				console.log($(this).attr('id') + (spread +(index*spread) + "vh").toString());
 				$(this).animate(
 					{
-						top: (spread + "vh").toString()
+						top: (spread +(index*spread)/3 + "vh").toString()
 					},
-					{ duration: 200, queue: false }
+					{ duration: 400, queue: false }
 				);
-				spread += spread;
+				
 			}
 		)
 	})()

@@ -12,7 +12,7 @@ body{
 .photo-page{
 	position: absolute;
     display: block;
-	width: 50vh;
+	width: 40vh;
 	height: 62.5vh;
     margin-right: auto;
     margin-left: auto;
@@ -22,7 +22,6 @@ body{
 #MP{
 	z-index: 6;
 	top: 15vh;
-	
 	left:0px;
 	right:0px;
 }
@@ -35,12 +34,21 @@ body{
 	left:2vh;
 	right:0px;
 }
+#restoration {
+	transform: rotate(-4deg);
+	z-index: 4;
+	top: 15vh;
+	bottom: 0px;
+	left:2vh;
+	right:0px;
+}
 
 svg{
     display: block;
     margin-top: 0;
     margin-right: auto;
     margin-left: auto;
+	box-shadow: 0px 7px 7px -5px rgb(100,100,100);
 }
 
 rect{
@@ -72,4 +80,15 @@ rect{
 
 #log {
 	color: white;
+}
+
+
+
+#AI {
+	transform: rotate(6deg);
+	z-index: 3;
+	top: 15vh;
+	bottom: 0px;
+	left:2vh;
+	right:0px;
 }
