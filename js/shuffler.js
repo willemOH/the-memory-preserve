@@ -1,14 +1,11 @@
 $(document).ready(function(){
-	//var log = $('#log');
 	var photoSections = ['#MP','#digitization','#restoration', '#AI'];
-	//photoSections => log.html($(photoSectionsArray[0]).css('top') + 'event clicked')
-	var belowArray = photoSections.filter(function(element) {
+	var underneathArray = photoSections.filter(function(element) {
 				return photoSections.indexOf(element) > 0});
 	var spread = 23; 
 	(function() { 
-		$(belowArray.join()).each(
+		$(underneathArray.join()).each(
 			function (index) {
-				console.log($(this).attr('id') + (spread +(index*spread) + "vh").toString());
 				$(this).animate(
 					{
 						top: (spread +(index*spread)/3 + "vh").toString()
@@ -19,43 +16,57 @@ $(document).ready(function(){
 			}
 		)
 	})()
-	//() => log.html('evenst clicked');
-	/*
-	var test = () => log.html('evenst clicked')
-	test();
-	*/
-	//test(log);
+	
 	$('body').click(function(event){
 		var log = $('#log');
 		var vhUnit = $(window).height()/100;
-		//var spacing = '20vh';
+		var calls = 0;
+		var belowArray;
+		var aboveArray;
+		var id;
 		ClickTitle(event);	
 		
-
 		function ClickTitle() {	
-		Shuffle('#' + $(event.target).closest('section').attr('id'));
-		
+			id = '#' + $(event.target).closest('section').attr('id');
+			var selectedIndex = photoSections.indexOf(id.toString());
+			belowArray = photoSections.filter(function(element) {
+				return photoSections.indexOf(element) >= selectedIndex
+			});
+			aboveArray = photoSections.filter(function(element) {
+				return photoSections.indexOf(element) < selectedIndex
+			});
+			MoveToBottomRise(); 
 		}
 		
-		function Shuffle(id){
-			MoveAllUp(photoSections, id);
-			var selectedIndex = photoSections.indexOf('#' + id);
-			var onTopArray = photoSections.filter(function(element) {
-				return photoSections.indexOf(element) <= selectedIndex});
-			MoveAbove(onTopArray);
-			
-			//MoveToBottom(ontopArray);
-			//log.html(photoSections.indexOf('#' + id) + 'clicked');
-			
+		function MoveToBottomRise(){
+			var moveDistance = -47;
+			$(aboveArray.join()).each(
+				function () {
+					var top = ((parseFloat($(this).css('top'),10))/vhUnit);
+					log.html(top);
+					$(this).animate(
+						{
+							top: (top + moveDistance + "vh").toString()
+						},
+						{duration: 200,  complete: ExecuteAfterCallsNumber(aboveArray.length, MoveToTop)}
+					);
+				}
+			)
+		}
+		
+		/*
+		function MoveToBottomFall(aboveArray, belowArray, id){
 			
 		}
+		*/
 		//heigh of window in px/100 = 1 vh unit
-		
-		function MoveAllUp(photoSectionsArray, sectionClickedSelector){
-			var selectedSectionLocation = parseFloat($(sectionClickedSelector).css('top'));
-			var differenceToCenter = selectedSectionLocation - parseFloat($(photoSectionsArray[0]).css('top'));
-			log.html($(photoSectionsArray[0]).css('top') + 'event clicked');
-			$(photoSectionsArray.join()).each(
+		function MoveToTop(){
+			//console.log("called");
+			var selectedSectionLocation = parseFloat($(id).css('top'));
+			var differenceToCenter = selectedSectionLocation - parseFloat($(photoSections[0]).css('top'));
+			log.html($(photoSections[0]).css('top') + 'event clicked');
+			//console.log(belowArray);
+			$(belowArray.join()).each(
 				function () {
 					var top = (parseFloat($(this).css('top'),10))/vhUnit;
 					$(this).animate(
@@ -67,25 +78,18 @@ $(document).ready(function(){
 				}
 			)
 		}
-		
-		function MoveAbove(onTopArray){
-			
-			var moveDistance = -10;
-			$(onTopArray.join()).each(
-				function () {
-					var top = ((parseFloat($(this).css('top'),10))/vhUnit);
-					log.html(top);
-					$(this).animate(
-						{
-							top: (top + moveDistance + "vh").toString()
-						},
-						{ duration: 200, queue: false }
-					);
-				}
-			)
-			//log.html($(this) + 'event clicked');
-			
+		function ExecuteAfterCallsNumber(number, func){
+			calls++;
+			if(calls >= number){
+				func(belowArray, id);
+				console.log(calls);
+				console.log(number);
+				console.log("just once");
+				calls = 0;
+			}
 		}
+		
+		
 	
 	});
 });
