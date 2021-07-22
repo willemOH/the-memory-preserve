@@ -73,6 +73,7 @@ $(document).ready(function(){
 						},
 						{duration: 1000}
 					);
+					$(this).css('z-index', $(this).css('z-index') + aboveArray.length);
 				}
 			)
 		}
