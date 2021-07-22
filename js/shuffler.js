@@ -3,6 +3,7 @@ $(document).ready(function(){
 	var underneathArray = photoSections.filter(function(element) {
 				return photoSections.indexOf(element) > 0});
 	var spread = 23; 
+	var centerHeight;
 	(function() { 
 		$(underneathArray.join()).each(
 			function (index) {
@@ -15,6 +16,7 @@ $(document).ready(function(){
 				
 			}
 		)
+		centerHeight = $(photoSections[0]).css('top');
 	})()
 	
 	$('body').click(function(event){
@@ -24,6 +26,7 @@ $(document).ready(function(){
 		var belowArray;
 		var aboveArray;
 		var id;
+		
 		ClickTitle(event);	
 		
 		function ClickTitle() {	
@@ -48,24 +51,37 @@ $(document).ready(function(){
 						{
 							top: (top + moveDistance + "vh").toString()
 						},
-						{duration: 200,  complete: ExecuteAfterCallsNumber(aboveArray.length, MoveToTop)}
+						{duration: 1000,  complete: function(){
+						var funcArray = [MoveToBottomFall,MoveToTop];
+						ExecuteAfterCallsNumber(aboveArray.length, funcArray);										
+							}
+						}
 					);
 				}
 			)
 		}
 		
-		/*
-		function MoveToBottomFall(aboveArray, belowArray, id){
-			
+		function MoveToBottomFall(){
+			var moveDistance = 77;
+			$(aboveArray.join()).each(
+				function () {
+					var top = ((parseFloat($(this).css('top'),10))/vhUnit);
+					log.html(top);
+					$(this).animate(
+						{
+							top: (top + (underneathArray.length*spread) + "vh").toString()
+						},
+						{duration: 1000}
+					);
+				}
+			)
 		}
-		*/
+		
 		//heigh of window in px/100 = 1 vh unit
 		function MoveToTop(){
 			//console.log("called");
 			var selectedSectionLocation = parseFloat($(id).css('top'));
-			var differenceToCenter = selectedSectionLocation - parseFloat($(photoSections[0]).css('top'));
-			log.html($(photoSections[0]).css('top') + 'event clicked');
-			//console.log(belowArray);
+			var differenceToCenter = selectedSectionLocation - parseFloat(centerHeight);
 			$(belowArray.join()).each(
 				function () {
 					var top = (parseFloat($(this).css('top'),10))/vhUnit;
@@ -78,13 +94,12 @@ $(document).ready(function(){
 				}
 			)
 		}
-		function ExecuteAfterCallsNumber(number, func){
+		function ExecuteAfterCallsNumber(number, funcArray){
 			calls++;
 			if(calls >= number){
-				func(belowArray, id);
-				console.log(calls);
-				console.log(number);
-				console.log("just once");
+				funcArray.forEach(function(value,index,array){
+					array[index]();
+				})
 				calls = 0;
 			}
 		}
