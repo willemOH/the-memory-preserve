@@ -73,7 +73,9 @@ $(document).ready(function(){
 						},
 						{duration: 1000}
 					);
-					$(this).css('z-index', $(this).css('z-index') + aboveArray.length);
+					$(this).css('z-index', $(this).css('z-index') - aboveArray.length);
+					photoSections.push(photoSections.shift());
+					console.log(photoSections);
 				}
 			)
 		}
@@ -92,6 +94,7 @@ $(document).ready(function(){
 						},
 						{ duration: 200, queue: false }
 					);
+					$(this).css('z-index', $(this).css('z-index') + aboveArray.length);
 				}
 			)
 		}
