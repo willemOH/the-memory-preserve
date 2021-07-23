@@ -73,9 +73,11 @@ $(document).ready(function(){
 						},
 						{duration: 1000}
 					);
-					$(this).css('z-index', $(this).css('z-index') - aboveArray.length);
+					$(this).css('z-index', parseInt($(this).css('z-index')) - aboveArray.length);
 					photoSections.push(photoSections.shift());
-					console.log(photoSections);
+					console.log(aboveArray.length);
+					
+				
 				}
 			)
 		}
@@ -94,7 +96,8 @@ $(document).ready(function(){
 						},
 						{ duration: 200, queue: false }
 					);
-					$(this).css('z-index', $(this).css('z-index') + aboveArray.length);
+					$(this).css('z-index', parseInt($(this).css('z-index')) + aboveArray.length);
+					console.log($(this).css('z-index'));
 				}
 			)
 		}
