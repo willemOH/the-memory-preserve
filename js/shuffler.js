@@ -2,15 +2,18 @@ $(document).ready(function(){
 	var photoSections = ['#MP','#digitization','#restoration', '#AI'];
 	var underneathArray = photoSections.filter(function(element) {
 				return photoSections.indexOf(element) > 0});
-	var spread = 23; 
+	var pileTop = 23;
+	var spread = 7.66666666666; 
+	var riseDistance = 47;
 	var centerHeight;
 	
 	(function() { 
 		$(underneathArray.join()).each(
 			function (index) {
+				console.log(pileTop +(index*spread));
 				$(this).animate(
 					{
-						top: (spread +(index*spread)/underneathArray.length + "vh").toString()
+						top: (pileTop +(index*spread) + "vh").toString()
 					},
 					{ duration: 400, queue: false }
 				);
@@ -41,15 +44,14 @@ $(document).ready(function(){
 		})()
 		
 		function MoveToBottomRise(){
-			var moveDistance = -47;
 			$(aboveArray.join()).each(
 				function () {
 					var top = ((parseFloat($(this).css('top'),10))/vhUnit);
 					$(this).animate(
 						{
-							top: (top + moveDistance + "vh").toString()
+							top: (top + -riseDistance + "vh").toString()
 						},
-						{duration: 1000,  complete: function(){
+						{duration: 500,  complete: function(){
 							var funcArray = [MoveToBottomFall,MoveToTop];
 							ExecuteAfterCallsNumber(aboveArray.length, funcArray);										
 							}
@@ -59,18 +61,16 @@ $(document).ready(function(){
 			)
 		}
 		
-		function MoveToBottomFall(){
-			var moveDistance = 47;
-			
+		function MoveToBottomFall(){		
 			$(aboveArray.join()).each(
 				function () {
 					var section = this;
 					var top = ((parseFloat($(section).css('top'),10))/vhUnit);
 					$(section).animate(
 						{
-							top: (top + moveDistance + ((belowArray.length-1) * 7.6) + "vh").toString()
+							top: (top + riseDistance + spread + ((belowArray.length-1) * spread) + "vh").toString()
 						},
-						{duration: 1000}
+						{duration: 500}
 					);
 					console.log(aboveArray.length);
 					photoSections.push(photoSections.shift());
