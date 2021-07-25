@@ -2,15 +2,16 @@ $(document).ready(function(){
 	var photoSections = ['#MP','#digitization','#restoration', '#AI'];
 	var underneathArray = photoSections.filter(function(element) {
 				return photoSections.indexOf(element) > 0});
-	var pileTop = 23;
-	var spread = 7.66666666666; 
+	var spread = 5; 
+	var pileTop = spread * photoSections.length;
 	var riseDistance = 47;
+	var rotRange = 8;
 	var centerHeight;
 	
 	(function() { 
 		$(underneathArray.join()).each(
 			function (index) {
-				console.log(pileTop +(index*spread));
+				var rotation = Math.random() * (rotRange/2 + rotRange/2) - rotRange/2;
 				$(this).animate(
 					{
 						top: (pileTop +(index*spread) + "vh").toString()
@@ -18,13 +19,26 @@ $(document).ready(function(){
 					{ duration: 400, queue: false }
 				);
 				
+				$(this).animate({  borderSpacing: rotation },
+					{
+						step: function(now,fx) {
+							$(this).css('-webkit-transform','rotate('+now+'deg)'); 	
+							$(this).css('-moz-transform','rotate('+now+'deg)');
+							$(this).css('transform','rotate('+now+'deg)');
+						},
+					duration: 'slow'
+					},'linear'
+					
+				);
+				
+				console.log(rotation);
 			}
 		)
 		centerHeight = $(photoSections[0]).css('top');
 	})()
 	
 	$('body').click(function(event){
-		var log = $('#log');
+		var rotation = Math.random() * (rotRange/2 + rotRange/2) - rotRange/2;
 		var vhUnit = $(window).height()/100;
 		var calls = 0;
 		var belowArray;
@@ -72,6 +86,7 @@ $(document).ready(function(){
 						},
 						{duration: 500}
 					);
+					
 					console.log(aboveArray.length);
 					photoSections.push(photoSections.shift());
 				}
