@@ -4,6 +4,8 @@ $(document).ready(function(){
 				return photoSections.indexOf(element) > 0});
 	var spread = 23; 
 	var centerHeight;
+	
+	//console.log('#MP' === '#'+$(photoSections[0]).attr('id'));
 	(function() { 
 		$(underneathArray.join()).each(
 			function (index) {
@@ -20,6 +22,7 @@ $(document).ready(function(){
 	})()
 	
 	$('body').click(function(event){
+		console.log(Zindexpopulate(photoSections));
 		var log = $('#log');
 		var vhUnit = $(window).height()/100;
 		var calls = 0;
@@ -65,22 +68,49 @@ $(document).ready(function(){
 			var moveDistance = 77;
 			$(aboveArray.join()).each(
 				function () {
-					var top = ((parseFloat($(this).css('top'),10))/vhUnit);
-					log.html(top);
-					$(this).animate(
+					var section = this;
+					var top = ((parseFloat($(section).css('top'),10))/vhUnit);
+					$(section).animate(
 						{
 							top: (top + (underneathArray.length*spread) + "vh").toString()
 						},
 						{duration: 1000}
 					);
-					$(this).css('z-index', parseInt($(this).css('z-index')) - aboveArray.length);
-					photoSections.push(photoSections.shift());
-					console.log(aboveArray.length);
 					
-				
+					photoSections.push(photoSections.shift());
+				}
+				)
+			$(photoSections.join()).each(
+				function () {
+					var section = this;
+					console.log($(section).attr('id'));
+					console.log(searchStringInArray($(section).attr('id'), photoSections));
+					console.log(photoSections);
+					$(section).css('z-index', Math.abs(searchStringInArray($(section).attr('id'), photoSections) - photoSections.length));
+					console.log($(section).css('z-index'));
+					console.log(Zindexpopulate(photoSections));
 				}
 			)
 		}
+		function Zindexpopulate (array) {
+			var newArray = [array.length];
+						for (var j=0; j<array.length; j++) {
+						newArray[j] = $(array[j]).css('z-index');
+					}
+			return newArray;
+		}
+			
+		
+		function searchStringInArray (str, strArray) {
+			for (var j=0; j<strArray.length; j++) {
+				if (strArray[j].match(str)) return j;
+			}
+			return -1;
+		}
+		function test(element){
+						//return element === String('#'+$(this).attr('id'));
+						return element === '#MP';
+					}
 		
 		//heigh of window in px/100 = 1 vh unit
 		function MoveToTop(){
@@ -96,8 +126,8 @@ $(document).ready(function(){
 						},
 						{ duration: 200, queue: false }
 					);
-					$(this).css('z-index', parseInt($(this).css('z-index')) + aboveArray.length);
-					console.log($(this).css('z-index'));
+					/*$(this).css('z-index', parseInt($(this).css('z-index')) + aboveArray.length);
+					console.log($(this).css('z-index'));*/
 				}
 			)
 		}
