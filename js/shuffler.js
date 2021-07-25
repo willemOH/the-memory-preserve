@@ -10,7 +10,7 @@ $(document).ready(function(){
 			function (index) {
 				$(this).animate(
 					{
-						top: (spread +(index*spread)/3 + "vh").toString()
+						top: (spread +(index*spread)/underneathArray.length + "vh").toString()
 					},
 					{ duration: 400, queue: false }
 				);
@@ -45,7 +45,6 @@ $(document).ready(function(){
 			$(aboveArray.join()).each(
 				function () {
 					var top = ((parseFloat($(this).css('top'),10))/vhUnit);
-					log.html(top);
 					$(this).animate(
 						{
 							top: (top + moveDistance + "vh").toString()
@@ -61,17 +60,19 @@ $(document).ready(function(){
 		}
 		
 		function MoveToBottomFall(){
-			var moveDistance = 77;
+			var moveDistance = 47;
+			
 			$(aboveArray.join()).each(
 				function () {
 					var section = this;
 					var top = ((parseFloat($(section).css('top'),10))/vhUnit);
 					$(section).animate(
 						{
-							top: (top + (underneathArray.length*spread) + "vh").toString()
+							top: (top + moveDistance + ((belowArray.length-1) * 7.6) + "vh").toString()
 						},
 						{duration: 1000}
 					);
+					console.log(aboveArray.length);
 					photoSections.push(photoSections.shift());
 				}
 			)
