@@ -5,7 +5,6 @@ $(document).ready(function(){
 	var spread = 23; 
 	var centerHeight;
 	
-	//console.log('#MP' === '#'+$(photoSections[0]).attr('id'));
 	(function() { 
 		$(underneathArray.join()).each(
 			function (index) {
@@ -22,7 +21,6 @@ $(document).ready(function(){
 	})()
 	
 	$('body').click(function(event){
-		console.log(Zindexpopulate(photoSections));
 		var log = $('#log');
 		var vhUnit = $(window).height()/100;
 		var calls = 0;
@@ -30,9 +28,7 @@ $(document).ready(function(){
 		var aboveArray;
 		var id;
 		
-		ClickTitle(event);	
-		
-		function ClickTitle() {	
+		(function ClickTitle() {	
 			id = '#' + $(event.target).closest('section').attr('id');
 			var selectedIndex = photoSections.indexOf(id.toString());
 			belowArray = photoSections.filter(function(element) {
@@ -42,7 +38,7 @@ $(document).ready(function(){
 				return photoSections.indexOf(element) < selectedIndex
 			});
 			MoveToBottomRise(); 
-		}
+		})()
 		
 		function MoveToBottomRise(){
 			var moveDistance = -47;
@@ -55,8 +51,8 @@ $(document).ready(function(){
 							top: (top + moveDistance + "vh").toString()
 						},
 						{duration: 1000,  complete: function(){
-						var funcArray = [MoveToBottomFall,MoveToTop];
-						ExecuteAfterCallsNumber(aboveArray.length, funcArray);										
+							var funcArray = [MoveToBottomFall,MoveToTop];
+							ExecuteAfterCallsNumber(aboveArray.length, funcArray);										
 							}
 						}
 					);
@@ -76,30 +72,24 @@ $(document).ready(function(){
 						},
 						{duration: 1000}
 					);
-					
 					photoSections.push(photoSections.shift());
 				}
-				)
+			)
 			$(photoSections.join()).each(
 				function () {
 					var section = this;
-					console.log($(section).attr('id'));
-					console.log(searchStringInArray($(section).attr('id'), photoSections));
-					console.log(photoSections);
 					$(section).css('z-index', Math.abs(searchStringInArray($(section).attr('id'), photoSections) - photoSections.length));
-					console.log($(section).css('z-index'));
-					console.log(Zindexpopulate(photoSections));
 				}
 			)
 		}
+		
 		function Zindexpopulate (array) {
 			var newArray = [array.length];
-						for (var j=0; j<array.length; j++) {
-						newArray[j] = $(array[j]).css('z-index');
-					}
+			for (var j=0; j<array.length; j++) {
+				newArray[j] = $(array[j]).css('z-index');
+			}	
 			return newArray;
 		}
-			
 		
 		function searchStringInArray (str, strArray) {
 			for (var j=0; j<strArray.length; j++) {
@@ -107,14 +97,9 @@ $(document).ready(function(){
 			}
 			return -1;
 		}
-		function test(element){
-						//return element === String('#'+$(this).attr('id'));
-						return element === '#MP';
-					}
 		
-		//heigh of window in px/100 = 1 vh unit
+		//height of window in px/100 = 1 vh unit
 		function MoveToTop(){
-			//console.log("called");
 			var selectedSectionLocation = parseFloat($(id).css('top'));
 			var differenceToCenter = selectedSectionLocation - parseFloat(centerHeight);
 			$(belowArray.join()).each(
@@ -126,11 +111,10 @@ $(document).ready(function(){
 						},
 						{ duration: 200, queue: false }
 					);
-					/*$(this).css('z-index', parseInt($(this).css('z-index')) + aboveArray.length);
-					console.log($(this).css('z-index'));*/
 				}
 			)
 		}
+		
 		function ExecuteAfterCallsNumber(number, funcArray){
 			calls++;
 			if(calls >= number){
@@ -140,9 +124,6 @@ $(document).ready(function(){
 				calls = 0;
 			}
 		}
-		
-		
-	
 	});
 });
 
