@@ -21,7 +21,7 @@ body{
 
 #MP{
 	z-index: 4;
-	top: 15vh;
+	top: 10vh;
 	left:0px;
 	right:0px;
 }
@@ -29,7 +29,7 @@ body{
 #digitization{
 	transform: rotate(0deg);
 	z-index: 3;
-	top: 15vh;
+	top: 10vh;
 	bottom: 0px;
 	left:2vh;
 	right:0px;
@@ -37,7 +37,7 @@ body{
 #restoration {
 	transform: rotate(0deg);
 	z-index: 2;
-	top: 15vh;
+	top: 10vh;
 	bottom: 0px;
 	left:2vh;
 	right:0px;
@@ -45,7 +45,7 @@ body{
 #AI {
 	transform: rotate(0deg);
 	z-index: 1;
-	top: 15vh;
+	top: 10vh;
 	bottom: 0px;
 	left:2vh;
 	right:0px;

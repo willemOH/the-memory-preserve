@@ -3,13 +3,13 @@ $(document).ready(function(){
 	var underneathArray = photoSections.filter(function(element) {
 				return photoSections.indexOf(element) > 0});
 	var spread = 5; 
-	var pileTop = spread * photoSections.length;
+	var pileTop = 15;
 	var riseDistance = 47;
 	var rotRange = 8;
 	var centerHeight;
 	
 	(function() { 
-		$(underneathArray.join()).each(
+		$(photoSections.join()).each(
 			function (index) {
 				var rotation = Math.random() * (rotRange/2 + rotRange/2) - rotRange/2;
 				$(this).animate(
@@ -18,7 +18,7 @@ $(document).ready(function(){
 					},
 					{ duration: 400, queue: false }
 				);
-				
+				/*
 				$(this).animate({  borderSpacing: rotation },
 					{
 						step: function(now,fx) {
@@ -30,11 +30,10 @@ $(document).ready(function(){
 					},'linear'
 					
 				);
-				
-				console.log(rotation);
+				*/
 			}
 		)
-		centerHeight = $(photoSections[0]).css('top');
+		centerHeight = parseFloat($(photoSections[0]).css('top'),10);
 	})()
 	
 	$('body').click(function(event){
@@ -46,6 +45,7 @@ $(document).ready(function(){
 		var id;
 		
 		(function ClickTitle() {	
+			//console.log(photoSections);
 			id = '#' + $(event.target).closest('section').attr('id');
 			var selectedIndex = photoSections.indexOf(id.toString());
 			belowArray = photoSections.filter(function(element) {
@@ -54,6 +54,7 @@ $(document).ready(function(){
 			aboveArray = photoSections.filter(function(element) {
 				return photoSections.indexOf(element) < selectedIndex
 			});
+
 			MoveToBottomRise(); 
 		})()
 		
@@ -86,8 +87,6 @@ $(document).ready(function(){
 						},
 						{duration: 500}
 					);
-					
-					console.log(aboveArray.length);
 					photoSections.push(photoSections.shift());
 				}
 			)
@@ -123,7 +122,7 @@ $(document).ready(function(){
 					var top = (parseFloat($(this).css('top'),10))/vhUnit;
 					$(this).animate(
 						{
-							top: (top - (differenceToCenter/vhUnit )+ "vh").toString()
+							top: (top - (differenceToCenter/vhUnit ) + spread + "vh").toString()
 						},
 						{ duration: 200, queue: false }
 					);
