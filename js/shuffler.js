@@ -3,49 +3,56 @@ $(document).ready(function(){
 	var underneathArray = photoSections.filter(function(element) {
 				return photoSections.indexOf(element) > 0});
 	var spread = 5; 
-	var pileTop = 15;
+	var pileTopInit = 15;
 	var riseDistance = 47;
 	var rotRange = 8;
 	var centerHeight;
+	var vhUnit;
 	
-	(function() { 
-		$(photoSections.join()).each(
+	(function() { 		
+		setScaling();
+		centerHeight = parseFloat($(photoSections[0]).css('top'),10)/vhUnit+spread; //cleaner to make this calculation after intial animation but this is preventative of errors when clicking before animation is finished 
+		console.log(centerHeight);
+		$(photoSections.join()).each( //on page load animation
 			function (index) {
 				var rotation = Math.random() * (rotRange/2 + rotRange/2) - rotRange/2;
-				$(this).animate(
+				$(this).animate( //first "spread"
 					{
-						top: (pileTop +(index*spread) + "vh").toString()
+						top: (pileTopInit + (index*spread) + "vh").toString()
 					},
-					{ duration: 400, queue: false }
+					{ duration: 500, queue: false }, 'swing'
 				);
-				/*
-				$(this).animate({  borderSpacing: rotation },
+				
+				$(this).animate({  borderSpacing: rotation }, //random rotation
 					{
 						step: function(now,fx) {
 							$(this).css('-webkit-transform','rotate('+now+'deg)'); 	
 							$(this).css('-moz-transform','rotate('+now+'deg)');
 							$(this).css('transform','rotate('+now+'deg)');
 						},
-					duration: 'slow'
-					},'linear'
-					
+					duration: 500
+					},'swing'
 				);
-				*/
 			}
 		)
-		centerHeight = parseFloat($(photoSections[0]).css('top'),10);
 	})()
+	
+	$(window).resize(function(){
+		setScaling();
+	});
+	
+	function setScaling(){ 	//height of window in px/100 = 1 vh unit
+		vhUnit = $(window).height()/100;
+	}
 	
 	$('body').click(function(event){
 		var rotation = Math.random() * (rotRange/2 + rotRange/2) - rotRange/2;
-		var vhUnit = $(window).height()/100;
 		var calls = 0;
 		var belowArray;
 		var aboveArray;
 		var id;
 		
 		(function ClickTitle() {	
-			//console.log(photoSections);
 			id = '#' + $(event.target).closest('section').attr('id');
 			var selectedIndex = photoSections.indexOf(id.toString());
 			belowArray = photoSections.filter(function(element) {
@@ -54,11 +61,10 @@ $(document).ready(function(){
 			aboveArray = photoSections.filter(function(element) {
 				return photoSections.indexOf(element) < selectedIndex
 			});
-
 			MoveToBottomRise(); 
 		})()
 		
-		function MoveToBottomRise(){
+		function MoveToBottomRise(){ //stage 1 animation
 			$(aboveArray.join()).each(
 				function () {
 					var top = ((parseFloat($(this).css('top'),10))/vhUnit);
@@ -68,7 +74,7 @@ $(document).ready(function(){
 						},
 						{duration: 500,  complete: function(){
 							var funcArray = [MoveToBottomFall,MoveToTop];
-							ExecuteAfterCallsNumber(aboveArray.length, funcArray);										
+							ExecuteAfterCallsNumber(aboveArray.length, funcArray);	
 							}
 						}
 					);
@@ -76,7 +82,7 @@ $(document).ready(function(){
 			)
 		}
 		
-		function MoveToBottomFall(){		
+		function MoveToBottomFall(){ //stage 2 animation (1 of 2)	
 			$(aboveArray.join()).each(
 				function () {
 					var section = this;
@@ -113,16 +119,15 @@ $(document).ready(function(){
 			return -1;
 		}
 		
-		//height of window in px/100 = 1 vh unit
-		function MoveToTop(){
-			var selectedSectionLocation = parseFloat($(id).css('top'));
-			var differenceToCenter = selectedSectionLocation - parseFloat(centerHeight);
+		function MoveToTop(){ //stage 2 animation (2 of 2)
+			var selectedSectionLocation = parseFloat($(id).css('top'))/vhUnit;
+			var differenceToCenter = selectedSectionLocation - centerHeight;
 			$(belowArray.join()).each(
 				function () {
 					var top = (parseFloat($(this).css('top'),10))/vhUnit;
 					$(this).animate(
 						{
-							top: (top - (differenceToCenter/vhUnit ) + spread + "vh").toString()
+							top: (top - (differenceToCenter) + "vh").toString()
 						},
 						{ duration: 200, queue: false }
 					);
