@@ -20,7 +20,7 @@ body{
 }
 
 #MP{
-	z-index: 4;
+	z-index: 6;
 	top: 10vh;
 	left:0px;
 	right:0px;
@@ -28,26 +28,42 @@ body{
 
 #digitization{
 	transform: rotate(0deg);
-	z-index: 3;
+	z-index: 5;
 	top: 10vh;
 	bottom: 0px;
-	left:2vh;
+	left:0vh;
 	right:0px;
 }
 #restoration {
 	transform: rotate(0deg);
-	z-index: 2;
+	z-index: 4;
 	top: 10vh;
 	bottom: 0px;
-	left:2vh;
+	left:0vh;
 	right:0px;
 }
 #AI {
 	transform: rotate(0deg);
+	z-index: 3;
+	top: 10vh;
+	bottom: 0px;
+	left:0vh;
+	right:0px;
+}
+#rates {
+	transform: rotate(0deg);
+	z-index: 2;
+	top: 10vh;
+	bottom: 0px;
+	left:0vh;
+	right:0px;
+}
+#contact {
+	transform: rotate(0deg);
 	z-index: 1;
 	top: 10vh;
 	bottom: 0px;
-	left:2vh;
+	left:0vh;
 	right:0px;
 }
 

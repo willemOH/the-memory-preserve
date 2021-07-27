@@ -1,11 +1,12 @@
 $(document).ready(function(){
-	var photoSections = ['#MP','#digitization','#restoration', '#AI'];
+	var photoSections = ['#MP','#digitization','#restoration', '#AI','#rates','#contact'];
 	var underneathArray = photoSections.filter(function(element) {
 				return photoSections.indexOf(element) > 0});
 	var spread = 5; 
 	var pileTopInit = 15;
 	var riseDistance = 47;
-	var rotRange = 8;
+	var rotRange = 6;
+	var horizontalRange = 4;
 	var centerHeight;
 	var vhUnit;
 	
@@ -16,13 +17,19 @@ $(document).ready(function(){
 		$(photoSections.join()).each( //on page load animation
 			function (index) {
 				var rotation = Math.random() * (rotRange/2 + rotRange/2) - rotRange/2;
+				var leftMove = Math.random() * (horizontalRange/2 + horizontalRange/2) - horizontalRange/2;
 				$(this).animate( //first "spread"
 					{
 						top: (pileTopInit + (index*spread) + "vh").toString()
 					},
 					{ duration: 500, queue: false }, 'swing'
 				);
-				
+				$(this).animate( //first "spread"
+					{
+						left: (leftMove+ "vh").toString()
+					},
+					{ duration: 500, queue: false }, 'swing'
+				);
 				$(this).animate({  borderSpacing: rotation }, //random rotation
 					{
 						step: function(now,fx) {
