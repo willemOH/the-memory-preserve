@@ -13,36 +13,79 @@ $(document).ready(function(){
 	(function() { 		
 		setScaling();
 		centerHeight = parseFloat($(photoSections[0]).css('top'),10)/vhUnit+spread; //cleaner to make this calculation after intial animation but this is preventative of errors when clicking before animation is finished 
-		console.log(centerHeight);
 		$(photoSections.join()).each( //on page load animation
 			function (index) {
-				var rotation = Math.random() * (rotRange/2 + rotRange/2) - rotRange/2;
-				var leftMove = Math.random() * (horizontalRange/2 + horizontalRange/2) - horizontalRange/2;
 				$(this).animate( //first "spread"
 					{
 						top: (pileTopInit + (index*spread) + "vh").toString()
 					},
 					{ duration: 500, queue: false }, 'swing'
 				);
-				$(this).animate( //first "spread"
-					{
-						left: (leftMove+ "vh").toString()
-					},
-					{ duration: 500, queue: false }, 'swing'
-				);
-				$(this).animate({  borderSpacing: rotation }, //random rotation
-					{
-						step: function(now,fx) {
-							$(this).css('-webkit-transform','rotate('+now+'deg)'); 	
-							$(this).css('-moz-transform','rotate('+now+'deg)');
-							$(this).css('transform','rotate('+now+'deg)');
-						},
-					duration: 500
-					},'swing'
-				);
+				Jitter(this, false); //can't correct because rotation values not generated yet
 			}
 		)
 	})()
+	function Jitter(element, correct){
+		var rotation = (Math.random() * (rotRange/2 + rotRange/2) - rotRange/2);
+		var leftMove = Math.random() * (horizontalRange/2 + horizontalRange/2) - horizontalRange/2;
+		Align(element, rotation, leftMove, correct);
+	}
+	function Align(element, rot, move, correct){
+		if(correct){
+			getRotation(element);
+		}
+		$(element).animate( //random horizontal movement
+					{
+						left: (move+ "vh").toString()
+					},
+					{ duration: 500, queue: false }, 'swing'
+				);
+		$(element).animate({  borderSpacing: rot }, //random rotation
+			{
+				step: function(now,fx) {
+					$(element).css('-webkit-transform','rotate('+now+'deg)'); 	
+					$(element).css('-moz-transform','rotate('+now+'deg)');
+					$(element).css('transform','rotate('+now+'deg)');
+				},
+			duration: 500
+			},'swing'
+		);
+	}
+	
+	function getRotation(element){
+		var el = document.getElementById($(element).attr('id'));
+		console.log(el);
+		//var el = $(element).get(0);
+		//console.log(el);
+		var st = window.getComputedStyle(el, null);
+		console.log(st);
+		var tr = st.getPropertyValue("-webkit-transform") ||
+        st.getPropertyValue("-moz-transform") ||
+        st.getPropertyValue("-ms-transform") ||
+        st.getPropertyValue("-o-transform") ||
+        st.getPropertyValue("transform") ||
+        "FAIL";
+		console.log('Matrix: ' + tr);
+		// rotation matrix - http://en.wikipedia.org/wiki/Rotation_matrix
+		var values = tr.split('(')[1].split(')')[0].split(',');
+		var a = values[0];
+		var b = values[1];
+		var c = values[2];
+		var d = values[3];
+
+		var scale = Math.sqrt(a*a + b*b);
+
+		console.log('Scale: ' + scale);
+
+		// arc sin, convert from radians to degrees, round
+		var sin = b/scale;
+		// next line works for 30deg but not 130deg (returns 50);
+		// var angle = Math.round(Math.asin(sin) * (180/Math.PI));
+		var angle = Math.round(Math.atan2(b, a) * (180/Math.PI));
+
+		console.log('Rotate: ' + angle + 'deg');
+		return tr;
+	}
 	
 	$(window).resize(function(){
 		setScaling();
@@ -72,6 +115,7 @@ $(document).ready(function(){
 		})()
 		
 		function MoveToBottomRise(){ //stage 1 animation
+			var firstSection = true;
 			$(aboveArray.join()).each(
 				function () {
 					var top = ((parseFloat($(this).css('top'),10))/vhUnit);
@@ -79,17 +123,22 @@ $(document).ready(function(){
 						{
 							top: (top + -riseDistance + "vh").toString()
 						},
-						{duration: 500,  complete: function(){
+						{duration: 500, queue: false,  complete: function(){
 							var funcArray = [MoveToBottomFall,MoveToTop];
-							ExecuteAfterCallsNumber(aboveArray.length, funcArray);	
+							ExecuteAfterCallsNumber(aboveArray.length, funcArray);
 							}
 						}
 					);
+					if(firstSection){
+								Jitter(this, true);
+								firstSection = false;					
+							};
 				}
 			)
 		}
 		
-		function MoveToBottomFall(){ //stage 2 animation (1 of 2)	
+		function MoveToBottomFall(){ //stage 2 animation (1 of 2)
+		
 			$(aboveArray.join()).each(
 				function () {
 					var section = this;
@@ -129,6 +178,7 @@ $(document).ready(function(){
 		function MoveToTop(){ //stage 2 animation (2 of 2)
 			var selectedSectionLocation = parseFloat($(id).css('top'))/vhUnit;
 			var differenceToCenter = selectedSectionLocation - centerHeight;
+			var firstSection = true;
 			$(belowArray.join()).each(
 				function () {
 					var top = (parseFloat($(this).css('top'),10))/vhUnit;
@@ -138,6 +188,10 @@ $(document).ready(function(){
 						},
 						{ duration: 200, queue: false }
 					);
+					if(firstSection){
+						Align(this, 0, 0, true);
+						firstSection = false;
+					}
 				}
 			)
 		}
