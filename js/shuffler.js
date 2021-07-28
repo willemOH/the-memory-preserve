@@ -53,10 +53,8 @@ $(document).ready(function(){
 	}
 	
 	function getRotation(element){
-		var el = document.getElementById($(element).attr('id'));
 		console.log(el);
-		//var el = $(element).get(0);
-		//console.log(el);
+		var el = $(element).get(0);
 		var st = window.getComputedStyle(el, null);
 		console.log(st);
 		var tr = st.getPropertyValue("-webkit-transform") ||
