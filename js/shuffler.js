@@ -3,7 +3,7 @@ $(document).ready(function(){
 	var underneathArray = photoSections.filter(function(element) {
 				return photoSections.indexOf(element) > 0});
 	var spread = 5; 
-	var pileTopInit = 15;
+	var pileTopInit = 10;
 	var riseDistance = 47;
 	var rotRange = 6;
 	var horizontalRange = 4;
@@ -12,7 +12,7 @@ $(document).ready(function(){
 	
 	(function() { 		
 		setScaling();
-		centerHeight = parseFloat($(photoSections[0]).css('top'),10)/vhUnit+spread; //cleaner to make this calculation after intial animation but this is preventative of errors when clicking before animation is finished 
+		//cleaner to make this calculation after intial animation but this is preventative of errors when clicking before animation is finished 
 		$(photoSections.join()).each( //on page load animation
 			function (index) {
 				$(this).animate( //first "spread"
@@ -20,7 +20,10 @@ $(document).ready(function(){
 						top: (pileTopInit + (index*spread) + "vh").toString()
 					},
 					{ duration: 500, queue: false }, 'swing'
-				);
+				).promise().done(function(){
+					centerHeight = parseFloat($(photoSections[0]).css('top'),10)/vhUnit;
+					console.log(centerHeight);
+					})						
 				Jitter(this, false); //can't correct because rotation values not generated yet
 			}
 		)
