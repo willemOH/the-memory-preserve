@@ -73,17 +73,13 @@ $(document).ready(function(){
 		var b = values[1];
 		var c = values[2];
 		var d = values[3];
-
 		var scale = Math.sqrt(a*a + b*b);
-
 		console.log('Scale: ' + scale);
-
 		// arc sin, convert from radians to degrees, round
 		var sin = b/scale;
 		// next line works for 30deg but not 130deg (returns 50);
 		// var angle = Math.round(Math.asin(sin) * (180/Math.PI));
 		var angle = Math.round(Math.atan2(b, a) * (180/Math.PI));
-
 		console.log('Rotate: ' + angle + 'deg');
 		return tr;
 	}
@@ -131,15 +127,14 @@ $(document).ready(function(){
 						}
 					);
 					if(firstSection){
-								Jitter(this, true);
-								firstSection = false;					
-							};
+						Jitter(this, true);
+						firstSection = false;					
+					};
 				}
 			)
 		}
 		
-		function MoveToBottomFall(){ //stage 2 animation (1 of 2)
-		
+		function MoveToBottomFall(){ //stage 2 animation (1 of 2)	
 			$(aboveArray.join()).each(
 				function () {
 					var section = this;

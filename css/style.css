@@ -86,17 +86,17 @@ rect{
 	margin: 0 auto;
 	text-align: center;
 }
+
 h1{
 	font-size: 3.5vh;
 }
-polygon{
-}
+
 .header{
     position: inherit;
     display: block;
 	width:100%; 
 	height:2vh;
-    top: 42.5vh;
+    top: 50.1vh;
 	line-height: 3vh;
     text-align: center;
     font-size: 3vh;
@@ -117,11 +117,17 @@ polygon{
 	color: white;
 }
 
+li::before {
+	padding-right: 1vh;
+	content: "-";
+}
+
 li{
+	list-style: none;
 	position: relative;
 	width:95%; 
 	height:1.5vh;
-    top: -14vh;
+    top: -7vh;
     font-size: 1.5vh;
     font-family:'nixie-one';
 	font-weight: 600;
@@ -129,17 +135,20 @@ li{
     color: #000000;
     left: 4vh;
 }
+.liHigher{
+	top: -7.7vh;
+}
 .descrip {
 	position: relative;
     display: block;
-	width:95%; 
+	width:120%; 
 	height:5vh;
-    top: -13vh;
+    top: -7vh;
 	text-align:center;
     font-size: 1.5vh;
     font-family:'nixie-one';
 	font-weight: 600;
 	letter-spacing: .1vh;
     color: #000000;
-    left: 1vh;
+    left: -4vh;
 }
