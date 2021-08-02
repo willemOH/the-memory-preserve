@@ -9,6 +9,7 @@ $(document).ready(function(){
 	var horizontalRange = 4;
 	var centerHeight;
 	var vhUnit;
+	var previousClicked;
 	
 	(function() { 		
 		setScaling();
@@ -56,17 +57,17 @@ $(document).ready(function(){
 	}
 	
 	function getRotation(element){
-		console.log(el);
+		//console.log(el);
 		var el = $(element).get(0);
 		var st = window.getComputedStyle(el, null);
-		console.log(st);
+		//console.log(st);
 		var tr = st.getPropertyValue("-webkit-transform") ||
         st.getPropertyValue("-moz-transform") ||
         st.getPropertyValue("-ms-transform") ||
         st.getPropertyValue("-o-transform") ||
         st.getPropertyValue("transform") ||
         "FAIL";
-		console.log('Matrix: ' + tr);
+		//console.log('Matrix: ' + tr);
 		// rotation matrix - http://en.wikipedia.org/wiki/Rotation_matrix
 		var values = tr.split('(')[1].split(')')[0].split(',');
 		var a = values[0];
@@ -74,13 +75,13 @@ $(document).ready(function(){
 		var c = values[2];
 		var d = values[3];
 		var scale = Math.sqrt(a*a + b*b);
-		console.log('Scale: ' + scale);
+		//console.log('Scale: ' + scale);
 		// arc sin, convert from radians to degrees, round
 		var sin = b/scale;
 		// next line works for 30deg but not 130deg (returns 50);
 		// var angle = Math.round(Math.asin(sin) * (180/Math.PI));
 		var angle = Math.round(Math.atan2(b, a) * (180/Math.PI));
-		console.log('Rotate: ' + angle + 'deg');
+		//console.log('Rotate: ' + angle + 'deg');
 		return tr;
 	}
 	
@@ -98,9 +99,11 @@ $(document).ready(function(){
 		var belowArray;
 		var aboveArray;
 		var id;
+		var clickedSection;
 		
 		(function ClickTitle() {	
-			id = '#' + $(event.target).closest('section').attr('id');
+			clickedSection = $(event.target).closest('section');
+			id = '#' + $(clickedSection).attr('id');
 			var selectedIndex = photoSections.indexOf(id.toString());
 			belowArray = photoSections.filter(function(element) {
 				return photoSections.indexOf(element) >= selectedIndex
@@ -109,8 +112,26 @@ $(document).ready(function(){
 				return photoSections.indexOf(element) < selectedIndex
 			});
 			MoveToBottomRise(); 
+			FadeEnter();
 		})()
 		
+		function FadeEnter(){
+			$(clickedSection).find("h2").fadeOut().promise().done(function(){
+			$(clickedSection).find("p").fadeIn();
+			$(clickedSection).find("li").fadeIn();
+			});
+		}
+		function FadeExit(){
+			$(previousClicked).find("li").fadeOut();
+			console.log(previousClicked);
+			$(previousClicked).find("p").fadeOut().promise().done(function(){
+				$(previousClicked).find("h2").fadeIn().promise().done(function(){
+					previousClicked = clickedSection});
+			;
+			console.log(previousClicked);
+			});
+			
+		}
 		function MoveToBottomRise(){ //stage 1 animation
 			var firstSection = true;
 			$(aboveArray.join()).each(
@@ -154,6 +175,7 @@ $(document).ready(function(){
 					$(section).css('z-index', Math.abs(searchStringInArray($(section).attr('id'), photoSections) - photoSections.length));
 				}
 			)
+			FadeExit();
 		}
 		
 		function Zindexpopulate (array) {

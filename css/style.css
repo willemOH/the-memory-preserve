@@ -123,6 +123,7 @@ li::before {
 }
 
 li{
+	display: none;
 	list-style: none;
 	position: relative;
 	width:95%; 
@@ -139,8 +140,8 @@ li{
 	top: -7.7vh;
 }
 .descrip {
+	display: none;
 	position: relative;
-    display: block;
 	width:120%; 
 	height:5vh;
     top: -7vh;
