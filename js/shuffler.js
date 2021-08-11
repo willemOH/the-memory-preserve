@@ -23,37 +23,35 @@ $(document).ready(function(){
 					{ duration: 500, queue: false }, 'swing'
 				).promise().done(function(){
 					centerHeight = parseFloat($(photoSections[0]).css('top'),10)/vhUnit;
-					console.log(centerHeight);
 					})						
-				Jitter(this, false); //can't correct because rotation values not generated yet
+				Jitter(this); //can't correct because rotation values not generated yet
 			}
 		)
 	})()
-	function Jitter(element, correct){
+	
+	function Jitter(element){
 		var rotation = (Math.random() * (rotRange/2 + rotRange/2) - rotRange/2);
 		var leftMove = Math.random() * (horizontalRange/2 + horizontalRange/2) - horizontalRange/2;
-		Align(element, rotation, leftMove, correct);
+		Align(element, rotation, leftMove);
 	}
-	function Align(element, rot, move, correct){
-		if(correct){
-			getRotation(element);
-		}
+	
+	function Align(element, rot, move){
 		$(element).animate( //random horizontal movement
 					{
 						left: (move+ "vh").toString()
 					},
 					{ duration: 500, queue: false }, 'swing'
-				);
-		$(element).animate({  borderSpacing: rot }, //random rotation
+				);		
+		$(element).animate({arbitrary: rot}, //random rotation
 			{
 				step: function(now,fx) {
 					$(element).css('-webkit-transform','rotate('+now+'deg)'); 	
 					$(element).css('-moz-transform','rotate('+now+'deg)');
 					$(element).css('transform','rotate('+now+'deg)');
 				},
-			duration: 500
+			duration: 500, queue: false
 			},'swing'
-		);
+		)
 	}
 	
 	function getRotation(element){
@@ -80,9 +78,9 @@ $(document).ready(function(){
 		var sin = b/scale;
 		// next line works for 30deg but not 130deg (returns 50);
 		// var angle = Math.round(Math.asin(sin) * (180/Math.PI));
-		var angle = Math.round(Math.atan2(b, a) * (180/Math.PI));
+		var angle = Math.atan2(b, a) * (180/Math.PI);
 		//console.log('Rotate: ' + angle + 'deg');
-		return tr;
+		return Math.round(angle*10)/10;
 	}
 	
 	$(window).resize(function(){
@@ -121,17 +119,17 @@ $(document).ready(function(){
 			$(clickedSection).find("li").fadeIn();
 			});
 		}
+		
 		function FadeExit(){
 			$(previousClicked).find("li").fadeOut();
-			console.log(previousClicked);
 			$(previousClicked).find("p").fadeOut().promise().done(function(){
 				$(previousClicked).find("h2").fadeIn().promise().done(function(){
 					previousClicked = clickedSection});
 			;
-			console.log(previousClicked);
 			});
 			
 		}
+		
 		function MoveToBottomRise(){ //stage 1 animation
 			var firstSection = true;
 			$(aboveArray.join()).each(
@@ -148,7 +146,7 @@ $(document).ready(function(){
 						}
 					);
 					if(firstSection){
-						Jitter(this, true);
+						Jitter(this);
 						firstSection = false;					
 					};
 				}
@@ -207,7 +205,7 @@ $(document).ready(function(){
 						{ duration: 200, queue: false }
 					);
 					if(firstSection){
-						Align(this, 0, 0, true);
+						Align(this, 0, 0);
 						firstSection = false;
 					}
 				}
