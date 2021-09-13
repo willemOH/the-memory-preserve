@@ -23,6 +23,14 @@ body{
 	
 }
 
+.clip {
+  clip-path: url(#clip);
+	z-index: 6;
+	top: -8%;
+	left: -8%;
+	position: absolute;
+}
+
 #MP{
 	z-index: 6;
 	top: var(--initialHeight);
