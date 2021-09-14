@@ -119,7 +119,7 @@ h1{
 	line-height: 3vh;
     text-align: center;
     font-size: 3vh;
-    font-family:'swanky-and-moo-moo';
+    font-family:'Swanky And Moo Moo';
 	transform: scale(1, 1.4);
 	letter-spacing: .7vh;
 	font-weight: 600;
@@ -149,7 +149,7 @@ li{
 	height:1.5vh;
     top: -7vh;
     font-size: 1.5vh;
-    font-family:'nixie-one';
+    font-family:'Nixie One';
 	font-weight: 600;
 	letter-spacing: .1vh;
     color: #000000;
@@ -166,7 +166,7 @@ li{
     top: -7vh;
 	text-align:center;
     font-size: 1.5vh;
-    font-family:'nixie-one';
+    font-family:'Nixie One';
 	font-weight: 600;
 	letter-spacing: .1vh;
     color: #000000;
