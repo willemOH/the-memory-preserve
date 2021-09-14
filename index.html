@@ -15,11 +15,14 @@
 <body>
 <section class = "photo-page" id="MP"> 
 			<svg viewBox="0 0 100 125">
-				 <polygon points="-50,-50 50,-50 50,75 -50,75" transform="translate(50,50)" style = "fill:white;"  />
-				 <img height=92% width=115% src="content/cover_before.png" class="clip" transform="translate(20,50)">
-				 <clipPath id="clip">
-				 <polygon points="-45,-45 45,-45 45,45 -45,45" transform="translate(50,50)" style = "fill:black;" fill="url(#grad1)"/>
-				 </clipPath>
+				<polygon points="-50,-50 50,-50 50,75 -50,75" transform="translate(50,50)" style = "fill:white;"  />
+				<img class="clip" height="92%" width="115%" src="content/cover_after.png" >
+				<div id="fade_out">
+					<img class="clip" height="92%" width="115%" src="content/cover_before.png" >
+				</div>
+				<clipPath id="clip">
+				<polygon points="-45,-45 45,-45 45,45 -45,45" transform="translate(50,50)" style = "fill:black;" fill="url(#grad1)"/>
+				</clipPath>
 			</svg> 
 		<div style="top: 42vh;" class = "header"><h1>THE MEMORY<br>PRESERVE </h1>
 		</div>

@@ -31,6 +31,17 @@ body{
 	position: absolute;
 }
 
+#fade_out img {
+  position:absolute;
+  -webkit-transition: opacity .7s linear;
+  -moz-transition: opacity .7s linear;
+  transition: opacity .7s linear;
+}
+
+#fade_out img.clip:hover {
+  opacity:0;
+}
+
 #MP{
 	z-index: 6;
 	top: var(--initialHeight);
