@@ -13,6 +13,16 @@ body{
 	
 }
 
+@font-face {
+    font-family: 'SwankyAndMooMoo';
+    src: url('../fonts/SwankyandMooMoo-Regular.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: 'NixieOne';
+    src: url('../fonts/NixieOne-Regular.ttf') format('truetype');
+}
+
 .photo-page{
 	position: absolute;
     display: block;
@@ -119,7 +129,7 @@ h1{
 	line-height: 3vh;
     text-align: center;
     font-size: 3vh;
-    font-family:'Swanky And Moo Moo';
+    font-family:'SwankyAndMooMoo';
 	transform: scale(1, 1.4);
 	letter-spacing: .7vh;
 	font-weight: 600;
@@ -149,7 +159,7 @@ li{
 	height:1.5vh;
     top: -7vh;
     font-size: 1.5vh;
-    font-family:'Nixie One';
+    font-family:'NixieOne';
 	font-weight: 600;
 	letter-spacing: .1vh;
     color: #000000;
@@ -166,7 +176,7 @@ li{
     top: -7vh;
 	text-align:center;
     font-size: 1.5vh;
-    font-family:'Nixie One';
+    font-family:'NixieOne';
 	font-weight: 600;
 	letter-spacing: .1vh;
     color: #000000;
